@@ -17,12 +17,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [self setUpTopBar];
     [self setUpTableView];
+}
+
+- (void)setUpTopBar
+{
+    self.topBar = [[UIView alloc] initWithFrame:(CGRect){0,0,self.view.frame.size.width,TOP_BAR_MAX}];
+    [self.topBar setBackgroundColor:[UIColor magentaColor]];
+    [self.view addSubview:self.topBar];
 }
 
 - (void)setUpTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.frame];
+    self.tableView = [[UITableView alloc] initWithFrame:(CGRect){0,self.topBar.frame.size.height,self.view.frame.size.width,self.view.frame.size.height-TOP_BAR_MAX}];
     [self.tableView setDataSource:self];
     [self.tableView setDelegate:self];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CELL"];
@@ -56,5 +64,29 @@
     return self.view.frame.size.width * 0.35;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if( scrollView.contentOffset.y > TOP_BAR_MAX-TOP_BAR_MIN)
+    {
+        //force to min
+        [self.topBar setFrame:(CGRect){self.topBar.frame.origin,self.topBar.frame.size.width,TOP_BAR_MIN }];
+        [self.tableView setFrame:(CGRect){0,self.topBar.frame.size.height,self.view.frame.size.width,self.view.frame.size.height-self.topBar.frame.size.height}];
+    }
+    else if (scrollView.contentOffset.y < TOP_BAR_MIN)
+    {
+        //force to max
+        [self.topBar setFrame:(CGRect){self.topBar.frame.origin,self.topBar.frame.size.width,TOP_BAR_MAX }];
+        [self.tableView setFrame:(CGRect){0,self.topBar.frame.size.height,self.view.frame.size.width,self.view.frame.size.height-self.topBar.frame.size.height}];
+    }
+    else
+    {
+        //magic
+        [self.topBar setFrame:(CGRect){self.topBar.frame.origin,self.topBar.frame.size.width,TOP_BAR_MAX - scrollView.contentOffset.y }];
+        [self.tableView setFrame:(CGRect){0,self.topBar.frame.size.height,self.view.frame.size.width,self.view.frame.size.height-self.topBar.frame.size.height}];
+    }
+    
+    
+    NSLog(@"%f",scrollView.contentOffset.y);
+}
 
 @end

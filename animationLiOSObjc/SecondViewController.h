@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIImageView+remote.h"
 
-@interface SecondViewController : UIViewController
+#define TOP_BAR_MAX 224
+#define TOP_BAR_MIN 44
 
+@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic) UIImageView *topBar;
+@property (nonatomic) UIVisualEffectView *blur;
+@property (nonatomic) UITableView *tableView;
 
 @end
 

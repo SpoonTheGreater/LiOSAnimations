@@ -13,7 +13,7 @@
 
 - (void) imageFromURL:(NSURL*)imageURL withCompletion:(void(^)(bool success))completion
 {
-    self.image = [UIImage imageFromColor:[UIColor colorWithWhite:0.2 alpha:.02]];
+    self.image = [UIImage imageFromColor:[UIColor colorWithHue:(arc4random()%255 / 255.0) saturation:1 brightness:1 alpha:1]];
     /*__block UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner setCenter:(CGPoint){self.frame.size.width*0.5,self.frame.size.height*0.5}];
     [self addSubview:spinner];
@@ -33,7 +33,8 @@
 
 - (void) imageFromURL:(NSURL*)imageURL withCompletion:(void(^)(bool success))completion animated:(bool)animated
 {
-    self.image = [UIImage imageFromColor:[UIColor colorWithWhite:0.2 alpha:.02]];
+    __block UIColor *color = [UIColor colorWithHue:(arc4random()%255 / 255.0)  saturation:1 brightness:1 alpha:1];
+    self.image = [UIImage imageFromColor:color];
     /*__block UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self addSubview:spinner];
     [spinner setCenter:(CGPoint){self.frame.size.width*0.5,self.frame.size.height*0.5}];
@@ -45,10 +46,10 @@
                                               {
                                                   UIImage *imageResponce = [UIImage imageWithData:data];
                                                   __block UIView *curtain = [[UIView alloc] initWithFrame:self.bounds];
-                                                  [curtain setBackgroundColor:[UIColor whiteColor]];
+                                                  [curtain setBackgroundColor:color];
                                                   [self addSubview:curtain];
                                                   [self setImage:imageResponce];
-                                                  [UIView animateWithDuration:animated?1:0 animations:^{
+                                                  [UIView animateWithDuration:animated?5:0 animations:^{
                                                       [curtain setAlpha:0];
                                                   } completion:^(BOOL finished) {
                                                       [curtain removeFromSuperview];

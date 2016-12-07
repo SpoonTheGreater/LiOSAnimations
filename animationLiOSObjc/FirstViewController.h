@@ -9,8 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "UIImageView+remote.h"
 
+#define TOP_BAR_MAX 64
+#define TOP_BAR_MIN 20
+
+
 @interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic) UIView *topBar;
 @property (nonatomic) UITableView *tableView;
 
 
